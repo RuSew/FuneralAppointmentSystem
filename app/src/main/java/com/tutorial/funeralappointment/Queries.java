@@ -112,4 +112,37 @@ public class Queries {
         }
         return appointmentList;
     }
+
+    public static void cancelAppointment(String refNo) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            String query = "UPDATE appointment " +
+                    "SET isCancel = 1 " +
+                    "WHERE" +
+                    " AppRefNo = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, refNo);
+            statement.executeUpdate();
+            connection.commit();
+
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (Exception e) {
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                }
+
+            }
+        }
+    }
 }
