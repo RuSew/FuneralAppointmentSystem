@@ -145,4 +145,47 @@ public class Queries {
             }
         }
     }
+
+    public static String getEmail(String custId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String email = "";
+        try {
+            String query = "SELECT Email FROM `customer` WHERE CusId = ?;";
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setString(1, custId);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                email = resultSet.getString("Email");
+            }
+
+        } catch (SQLException sqle) {
+            throw sqle;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (Exception exception) {
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (Exception exception) {
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception exception) {
+                }
+            }
+        }
+        return email;
+    }
 }
+//https://www.youtube.com/watch?v=roruU4hVwXA
+//https://www.youtube.com/watch?v=RahBCY5BfS0
