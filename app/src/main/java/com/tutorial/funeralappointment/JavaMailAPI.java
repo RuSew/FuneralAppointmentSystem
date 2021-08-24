@@ -1,9 +1,12 @@
 package com.tutorial.funeralappointment;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -12,7 +15,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
+public class JavaMailAPI extends AsyncTask<Void, Void, Void> {
     //Variables
     private Context mContext;
     private Session mSession;
@@ -35,7 +38,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
     protected void onPreExecute() {
         super.onPreExecute();
         //Show progress dialog while sending email
-        mProgressDialog = ProgressDialog.show(mContext,"Sending message", "Please wait...",false,false);
+        mProgressDialog = ProgressDialog.show(mContext, "Sending email to client", "Please wait...", false, false);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
         mProgressDialog.dismiss();
 
         //Show success toast
-        Toast.makeText(mContext,"Message Sent",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Email Sent", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -63,6 +66,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
         MailConfig config = new MailConfig();
         //Creating a new session
+        new Queries();
         mSession = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     //Authenticating the password
@@ -80,9 +84,10 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             //Adding receiver
             mm.addRecipient(Message.RecipientType.TO, new InternetAddress(mEmail));
             //Adding subject
-            mm.setSubject(config.getSubject());
+            mm.setSubject(mSubject);
             //Adding message
-            mm.setText(config.getMessage());
+            mm.setText(mMessage);
+//            mm.setContent(mMessage, "text/html");
             //Sending email
             Transport.send(mm);
 

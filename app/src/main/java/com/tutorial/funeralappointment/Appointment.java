@@ -2,11 +2,13 @@ package com.tutorial.funeralappointment;
 
 public class Appointment {
     private String refNo;
-    private String time;
+    private String timeSlot;
+    private String date;
     private boolean isCancelled;
     private boolean isDone;
     private String custId;
-    private String createdDated;
+    private String createdDate;
+    private String email;
 
     public String getRefNo() {
         return refNo;
@@ -16,12 +18,20 @@ public class Appointment {
         this.refNo = refNo;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public boolean isCancelled() {
@@ -48,11 +58,19 @@ public class Appointment {
         this.custId = custId;
     }
 
-    public String getCreatedDated() {
-        return createdDated;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreatedDated(String createdDated) {
-        this.createdDated = createdDated;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

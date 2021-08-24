@@ -18,7 +18,7 @@ public class Queries {
         User user = new User();
         try {
             String query = "SELECT UserId AS ID FROM user WHERE UserName = ? AND PASSWORD = ?;";
-            connection = dataSource.getConnection();
+            connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, password);
@@ -72,18 +72,18 @@ public class Queries {
                     "  appointment  " +
                     " WHERE " +
                     "  DATE_FORMAT( Date, \"%Y-%m-%d\" ) = ?;";
-            connection = dataSource.getConnection();
+            connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1, date);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Appointment appointment = new Appointment();
                 appointment.setRefNo(resultSet.getString("REFNO"));
-                appointment.setTime(resultSet.getString("TIMESLOT"));
+                appointment.setTimeSlot(resultSet.getString("TIMESLOT"));
                 appointment.setCancelled(resultSet.getBoolean("CANCELLED"));
                 appointment.setDone(resultSet.getBoolean("DONE"));
                 appointment.setCustId(resultSet.getString("CUSTID"));
-                appointment.setCreatedDated(resultSet.getString("CREATEDDATE"));
+                appointment.setCreatedDate(resultSet.getString("CREATEDDATE"));
 
                 appointmentList.add(appointment);
             }
@@ -146,20 +146,33 @@ public class Queries {
         }
     }
 
-    public static String getEmail(String custId) throws SQLException {
+    public static Appointment getCustEmailAndAppointmentDetails(String custId) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String email = "";
+        Appointment appointment = new Appointment();
         try {
-            String query = "SELECT Email FROM `customer` WHERE CusId = ?;";
-            connection = dataSource.getConnection();
+            String query = "SELECT " +
+                    " C.Email AS EMAIL, " +
+                    " A.AppRefNo AS REFNO, " +
+                    " A.TimeSlot AS TIME, " +
+                    " DATE_FORMAT( A.TimeSlot, \"%Y-%m-%d\" ) AS DATE  " +
+                    "FROM " +
+                    " customer C " +
+                    " INNER JOIN appointment A ON A.CusId = C.CusId  " +
+                    "WHERE " +
+                    " C.CusId = ?  " +
+                    " AND A.isCancel = 0";
+            connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1, custId);
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                email = resultSet.getString("Email");
+                appointment.setEmail(resultSet.getString("EMAIL"));
+                appointment.setRefNo(resultSet.getString("REFNO"));
+                appointment.setTimeSlot(resultSet.getString("TIME"));
+                appointment.setDate(resultSet.getString("DATE"));
             }
 
         } catch (SQLException sqle) {
@@ -184,8 +197,6 @@ public class Queries {
                 }
             }
         }
-        return email;
+        return appointment;
     }
 }
-//https://www.youtube.com/watch?v=roruU4hVwXA
-//https://www.youtube.com/watch?v=RahBCY5BfS0
