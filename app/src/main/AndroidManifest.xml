@@ -15,6 +15,10 @@
             android:exported="true"
             android:label="Login"/>
         <activity
+            android:name=".AppointmentActivity"
+            android:exported="true"
+            android:label="Appointments"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
