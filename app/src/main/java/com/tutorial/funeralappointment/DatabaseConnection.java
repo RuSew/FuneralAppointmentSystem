@@ -4,15 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DatabaseConnection {
-    public static Connection getConnection()
-    {
+    public static Connection getConnection() {
         Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/funeral_appointment", "rusiru", "rusiru123");
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/funeral_appointment", "rusiru", "rusiru");
             return con;
         } catch (Exception e) {
-            System.out.println("inter.DBConnect.connect()");
+            e.printStackTrace();
         }
         return null;
     }
