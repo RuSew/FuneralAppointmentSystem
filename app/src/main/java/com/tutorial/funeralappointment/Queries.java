@@ -54,35 +54,42 @@ public class Queries {
         return user;
     }
 
-    public static List<Appointment> getAppointments(String date) throws SQLException {
+    public static ArrayList<Appointment> getAppointments(String date) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Appointment> appointmentList = new ArrayList<>();
+        ArrayList<Appointment> appointmentList = new ArrayList<>();
         try {
             String query = "SELECT " +
-                    "  AppRefNo AS REFNO, " +
-                    "  TimeSlot AS TIMESLOT, " +
-                    "  isCancel AS CANCELLED, " +
-                    "  isDone AS DONE, " +
-                    "  CusId AS CUSTID, " +
-                    "  CreateDate AS CREATEDDATE  " +
-                    " FROM " +
-                    "  appointment  " +
-                    " WHERE " +
-                    "  DATE_FORMAT( Date, \"%Y-%m-%d\" ) = ?;";
+                    " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
+                    " A.AppRefNo AS REFNO, " +
+                    " DATE_FORMAT( A.TimeSlot, \"%h:%i %p\" ) AS TIMESLOT, " +
+                    " A.isCancel AS CANCELLED, " +
+                    " A.isDone AS DONE, " +
+                    " A.CusId AS CUSTID, " +
+                    " DATE_FORMAT(A.Date, \"%d %b %Y\") AS APPTDATE, " +
+                    " C.Email AS EMAIL, " +
+                    " C.Mobile AS MOBILE " +
+                    "FROM " +
+                    " appointment A " +
+                    " INNER JOIN customer C ON A.CusId = C.CusId  " +
+                    "WHERE " +
+                    " DATE_FORMAT( A.Date, \"%Y-%c-%d\" ) = ?;";
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1, date);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Appointment appointment = new Appointment();
+                appointment.setClientName(resultSet.getString("CLIENTNAME"));
                 appointment.setRefNo(resultSet.getString("REFNO"));
                 appointment.setTimeSlot(resultSet.getString("TIMESLOT"));
                 appointment.setCancelled(resultSet.getBoolean("CANCELLED"));
                 appointment.setDone(resultSet.getBoolean("DONE"));
                 appointment.setCustId(resultSet.getString("CUSTID"));
-                appointment.setCreatedDate(resultSet.getString("CREATEDDATE"));
+                appointment.setApptDate(resultSet.getString("APPTDATE"));
+                appointment.setEmail(resultSet.getString("EMAIL"));
+                appointment.setMobile(resultSet.getString("MOBILE"));
 
                 appointmentList.add(appointment);
             }
@@ -145,7 +152,7 @@ public class Queries {
         }
     }
 
-    public static Appointment getCustEmailAndAppointmentDetails(String custId) throws SQLException {
+    public static Appointment getCustomerDetails(String custId) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -171,7 +178,7 @@ public class Queries {
                 appointment.setEmail(resultSet.getString("EMAIL"));
                 appointment.setRefNo(resultSet.getString("REFNO"));
                 appointment.setTimeSlot(resultSet.getString("TIME"));
-                appointment.setDate(resultSet.getString("DATE"));
+                appointment.setApptDate(resultSet.getString("DATE"));
             }
 
         } catch (SQLException sqle) {

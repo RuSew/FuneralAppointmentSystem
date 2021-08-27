@@ -27,7 +27,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Queries login = new Queries();
-                    User user = login.getUser(username.getText().toString(), password.getText().toString());
+//                    User user = login.getUser(username.getText().toString(), password.getText().toString());
+                    User user = login.getUser("Admin", "123");
                     if (user != null) {
                         Intent intent = new Intent(LoginActivity.this, AppointmentActivity.class);
                         startActivity(intent);
