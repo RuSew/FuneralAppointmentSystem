@@ -38,7 +38,9 @@ public class JavaMailAPI extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         //Show progress dialog while sending email
-        mProgressDialog = ProgressDialog.show(mContext, "Sending email to client", "Please wait...", false, false);
+        mProgressDialog = ProgressDialog.show(mContext, "Sending email to customer", "Please wait...", false, false);
+        Toast.makeText(mContext.getApplicationContext(), "Appointment has been cancelled", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -87,7 +89,6 @@ public class JavaMailAPI extends AsyncTask<Void, Void, Void> {
             mm.setSubject(mSubject);
             //Adding message
             mm.setText(mMessage);
-//            mm.setContent(mMessage, "text/html");
             //Sending email
             Transport.send(mm);
 

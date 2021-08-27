@@ -6,35 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".AppointmentActivity">
 
+
     <Spinner
-        android:id="@+id/selection"
-        android:layout_width="165dp"
-        android:layout_height="64dp"
+        android:id="@+id/apptType"
+        android:layout_width="218dp"
+        android:layout_height="69dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toTopOf="@+id/appointmentListView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.321"
+        app:layout_constraintVertical_bias="0.304"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/datePickerButton"
         style="?android:spinnerStyle"
-        android:layout_width="167dp"
-        android:layout_height="65dp"
+        android:layout_width="139dp"
+        android:layout_height="68dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:onClick="openDatePicker"
         android:text="JAN 01 2020"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/appointmentListView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/selection"
+        app:layout_constraintStart_toEndOf="@+id/apptType"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.236" />
-
+        app:layout_constraintVertical_bias="0.205" />
 
     <ListView
         android:id="@+id/appointmentListView"
@@ -45,6 +46,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/list_item"/>
+        tools:listitem="@layout/list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

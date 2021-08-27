@@ -54,27 +54,47 @@ public class Queries {
         return user;
     }
 
-    public static ArrayList<Appointment> getAppointments(String date) throws SQLException {
+    public static ArrayList<Appointment> getAppointments(String date, boolean isCancel) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         ArrayList<Appointment> appointmentList = new ArrayList<>();
+        String query = "";
         try {
-            String query = "SELECT " +
-                    " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
-                    " A.AppRefNo AS REFNO, " +
-                    " DATE_FORMAT( A.TimeSlot, \"%h:%i %p\" ) AS TIMESLOT, " +
-                    " A.isCancel AS CANCELLED, " +
-                    " A.isDone AS DONE, " +
-                    " A.CusId AS CUSTID, " +
-                    " DATE_FORMAT(A.Date, \"%d %b %Y\") AS APPTDATE, " +
-                    " C.Email AS EMAIL, " +
-                    " C.Mobile AS MOBILE " +
-                    "FROM " +
-                    " appointment A " +
-                    " INNER JOIN customer C ON A.CusId = C.CusId  " +
-                    "WHERE " +
-                    " DATE_FORMAT( A.Date, \"%Y-%c-%d\" ) = ?;";
+            if(!isCancel){
+                query = "SELECT " +
+                        " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
+                        " A.AppRefNo AS REFNO, " +
+                        " DATE_FORMAT( A.TimeSlot, \"%h:%i %p\" ) AS TIMESLOT, " +
+                        " A.isCancel AS CANCELLED, " +
+                        " A.isDone AS DONE, " +
+                        " A.CusId AS CUSTID, " +
+                        " DATE_FORMAT(A.Date, \"%d %b %Y\") AS APPTDATE, " +
+                        " C.Email AS EMAIL, " +
+                        " C.Mobile AS MOBILE " +
+                        "FROM " +
+                        " appointment A " +
+                        " INNER JOIN customer C ON A.CusId = C.CusId  " +
+                        "WHERE " +
+                        " DATE_FORMAT( A.Date, \"%Y-%c-%d\" ) = ? AND isCancel = 0;";
+            }else{
+                query = "SELECT " +
+                        " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
+                        " A.AppRefNo AS REFNO, " +
+                        " DATE_FORMAT( A.TimeSlot, \"%h:%i %p\" ) AS TIMESLOT, " +
+                        " A.isCancel AS CANCELLED, " +
+                        " A.isDone AS DONE, " +
+                        " A.CusId AS CUSTID, " +
+                        " DATE_FORMAT(A.Date, \"%d %b %Y\") AS APPTDATE, " +
+                        " C.Email AS EMAIL, " +
+                        " C.Mobile AS MOBILE " +
+                        "FROM " +
+                        " appointment A " +
+                        " INNER JOIN customer C ON A.CusId = C.CusId  " +
+                        "WHERE " +
+                        " DATE_FORMAT( A.Date, \"%Y-%c-%d\" ) = ? AND isCancel = 1;";
+            }
+
             connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1, date);
@@ -127,10 +147,10 @@ public class Queries {
                     "SET isCancel = 1 " +
                     "WHERE" +
                     " AppRefNo = ?";
+            connection = DatabaseConnection.getConnection();
             statement = connection.prepareStatement(query);
             statement.setString(1, refNo);
             statement.executeUpdate();
-            connection.commit();
 
         } catch (SQLException e) {
             connection.rollback();
@@ -152,57 +172,4 @@ public class Queries {
         }
     }
 
-    public static Appointment getCustomerDetails(String custId) throws SQLException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        Appointment appointment = new Appointment();
-        try {
-            String query = "SELECT " +
-                    " C.Email AS EMAIL, " +
-                    " A.AppRefNo AS REFNO, " +
-                    " A.TimeSlot AS TIME, " +
-                    " DATE_FORMAT( A.TimeSlot, \"%Y-%m-%d\" ) AS DATE  " +
-                    "FROM " +
-                    " customer C " +
-                    " INNER JOIN appointment A ON A.CusId = C.CusId  " +
-                    "WHERE " +
-                    " C.CusId = ?  " +
-                    " AND A.isCancel = 0";
-            connection = DatabaseConnection.getConnection();
-            statement = connection.prepareStatement(query);
-            statement.setString(1, custId);
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                appointment.setEmail(resultSet.getString("EMAIL"));
-                appointment.setRefNo(resultSet.getString("REFNO"));
-                appointment.setTimeSlot(resultSet.getString("TIME"));
-                appointment.setApptDate(resultSet.getString("DATE"));
-            }
-
-        } catch (SQLException sqle) {
-            throw sqle;
-        } finally {
-            if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (Exception exception) {
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (Exception exception) {
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (Exception exception) {
-                }
-            }
-        }
-        return appointment;
-    }
 }

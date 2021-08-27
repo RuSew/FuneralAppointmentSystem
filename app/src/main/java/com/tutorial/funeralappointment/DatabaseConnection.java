@@ -12,7 +12,7 @@ public class DatabaseConnection {
         StrictMode.setThreadPolicy(policy);
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.0.157:3306/funeralappointment","rusiru","rusiru");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.1.2:3306/funeralappointment","rusiru","rusiru");
             return connection;
         } catch (SQLException | ClassNotFoundException throwable) {
             throwable.printStackTrace();
