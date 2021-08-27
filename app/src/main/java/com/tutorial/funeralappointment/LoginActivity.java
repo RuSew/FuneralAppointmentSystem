@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Queries login = new Queries();
                 try {
-                    User user = Queries.getUser(username.getText().toString(), password.getText().toString());
+                    Queries login = new Queries();
+                    User user = login.getUser(username.getText().toString(), password.getText().toString());
                     if (user != null) {
                         Intent intent = new Intent(LoginActivity.this, AppointmentActivity.class);
                         startActivity(intent);

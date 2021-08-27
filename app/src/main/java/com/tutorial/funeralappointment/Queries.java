@@ -58,7 +58,6 @@ public class Queries {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        User user = new User();
         List<Appointment> appointmentList = new ArrayList<>();
         try {
             String query = "SELECT " +
