@@ -2,6 +2,7 @@ package com.tutorial.funeralappointment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -39,7 +40,6 @@ public class JavaMailAPI extends AsyncTask<Void, Void, Void> {
         super.onPreExecute();
         //Show progress dialog while sending email
         mProgressDialog = ProgressDialog.show(mContext, "Sending email to customer", "Please wait...", false, false);
-        Toast.makeText(mContext.getApplicationContext(), "Appointment has been cancelled", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -51,6 +51,8 @@ public class JavaMailAPI extends AsyncTask<Void, Void, Void> {
 
         //Show success toast
         Toast.makeText(mContext, "Email Sent", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext.getApplicationContext(), "Appointment has been cancelled", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

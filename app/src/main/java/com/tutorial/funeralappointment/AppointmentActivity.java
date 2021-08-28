@@ -3,15 +3,20 @@ package com.tutorial.funeralappointment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.tutorial.funeralappointment.databinding.ActivityAppointmentBinding;
 
@@ -29,6 +34,7 @@ public class AppointmentActivity extends AppCompatActivity {
     private Button dateButton;
     private boolean isCancel = false;
     private String selectedDate = "";
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,10 @@ public class AppointmentActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setTitle("Current Appointments");
 
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowHomeEnabled(true);
+//        actionBar.setIcon(R.drawable.logout);
+
         //Date picker
         initDatePicker();
         dateButton = findViewById(R.id.datePickerButton);
@@ -44,6 +54,8 @@ public class AppointmentActivity extends AppCompatActivity {
 
         //Creating appointment type dropdown
         Spinner dropdown = findViewById(R.id.apptType);
+        dropdown.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);//change dropdown arrow colour
+
         List<String> options = Arrays.asList("Current Appointments", "Cancelled Appointments");
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, options);
         dropdown.setAdapter(adapter);
@@ -61,7 +73,11 @@ public class AppointmentActivity extends AppCompatActivity {
                         setTitle("Cancelled Appointments");
                     }
                     appointmentList = Queries.getAppointments(selectedDate, isCancel);
+                    if(appointmentList.size() == 0){
+                        Toast.makeText(AppointmentActivity.this, "No data available", Toast.LENGTH_SHORT).show();
+                    }
                     setAdapter(appointmentList);
+
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

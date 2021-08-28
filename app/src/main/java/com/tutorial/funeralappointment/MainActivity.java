@@ -1,11 +1,12 @@
 package com.tutorial.funeralappointment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 //Splash screen
 public class MainActivity extends AppCompatActivity {
@@ -18,9 +19,18 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();//hide action bar
         //Navigate to login activity
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            SharedPreferences sp = getApplicationContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            boolean loggedIn = sp.getBoolean("loggedIn", true);
+            Intent intent;
+            if (loggedIn) {
+                intent = new Intent(MainActivity.this, AppointmentActivity.class);
+            } else {
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+            }
             startActivity(intent);
             finish();
+
+
         }, 3000);
 
     }

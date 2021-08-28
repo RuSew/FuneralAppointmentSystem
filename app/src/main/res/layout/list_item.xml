@@ -5,8 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/clientName"
@@ -42,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:text="01 Jan 2021"
                     android:textColor="@color/black"
-                    android:textSize="21sp"/>
+                    android:textSize="18sp"/>
 
                 <TextView
                     android:id="@+id/apptTime"
@@ -52,7 +51,7 @@
                     android:layout_marginLeft="4dp"
                     android:textColor="@color/black"
                     android:text="07:49 PM"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
