@@ -1,8 +1,11 @@
 package com.tutorial.funeralappointment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +30,8 @@ public class ViewAppointmentDetails extends AppCompatActivity {
             TextView time = findViewById(R.id.time);
             TextView email = findViewById(R.id.email);
             TextView mobile = findViewById(R.id.mobile);
+            TextView remark = findViewById(R.id.remark);
+            TextView textRemark = findViewById(R.id.textRemark);
 
             name.setText(intent.getStringExtra("name"));
             date.setText(intent.getStringExtra("date"));
@@ -37,9 +42,12 @@ public class ViewAppointmentDetails extends AppCompatActivity {
             cancelled = intent.getIntExtra("cancelled", 0);
 
             if (intent.getStringExtra("remark") != null) {
-                //make textview visible
+                textRemark.setVisibility(View.VISIBLE);
+                remark.setVisibility(View.VISIBLE);
+                remark.setText(intent.getStringExtra("remark"));
             } else {
-                //make textview hidden
+                textRemark.setVisibility(View.INVISIBLE);
+                remark.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -72,6 +80,10 @@ public class ViewAppointmentDetails extends AppCompatActivity {
                             if (remarkAdded > 0) {
                                 Queries.cancelAppointment(refNo);
                                 sendMail(intent.getStringExtra("date"), intent.getStringExtra("time"), refNo, intent.getStringExtra("email"));
+                                cancel.setVisibility(View.INVISIBLE);
+                                new Handler().postDelayed(() -> {
+                                    onBackPressed();
+                                }, 5000);
                             }
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();

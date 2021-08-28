@@ -38,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.show();
                 try {
                     Queries login = new Queries();
-//                    User user = login.getUser(username.getText().toString(), password.getText().toString());
-                    User user = login.getUser("Admin", "123");
+                    User user = login.getUser(username.getText().toString(), password.getText().toString());
                     toastMessage("Logged in successfully");
                     if (user != null) {
                         SharedPreferences.Editor editor = sp.edit();
@@ -49,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.hide();
                         Intent intent = new Intent(LoginActivity.this, AppointmentActivity.class);
                         startActivity(intent);
+                        finish();
                     }else{
                         toastMessage("Invalid Credentials");
                     }
