@@ -61,7 +61,7 @@
     <Spinner
         android:id="@+id/apptType"
         android:layout_width="218dp"
-        android:layout_height="69dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
