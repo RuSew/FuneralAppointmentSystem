@@ -5,12 +5,13 @@ public class Appointment {
     private String clientName;
     private String refNo;
     private String timeSlot;
-    private boolean isCancelled;
+    private int isCancelled;
     private boolean isDone;
     private String custId;
     private String createdDate;
     private String email;
     private String mobile;
+    private String remark;
 
 
     public String getApptDate() {
@@ -45,12 +46,12 @@ public class Appointment {
         this.timeSlot = timeSlot;
     }
 
-    public boolean isCancelled() {
+    public int getIsCancelled() {
         return isCancelled;
     }
 
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
+    public void setIsCancelled(int isCancelled) {
+        this.isCancelled = isCancelled;
     }
 
     public boolean isDone() {
@@ -91,5 +92,13 @@ public class Appointment {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

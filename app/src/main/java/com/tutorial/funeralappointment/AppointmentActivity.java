@@ -5,9 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,9 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.tutorial.funeralappointment.databinding.ActivityAppointmentBinding;
 
@@ -75,7 +71,7 @@ public class AppointmentActivity extends AppCompatActivity {
                         title.setText("Cancelled Appointments");
                     }
                     appointmentList = Queries.getAppointments(selectedDate, isCancel);
-                    if(appointmentList.size() == 0){
+                    if (appointmentList.size() == 0) {
                         Toast.makeText(AppointmentActivity.this, "No data available", Toast.LENGTH_SHORT).show();
                     }
                     setAdapter(appointmentList);
@@ -162,23 +158,25 @@ public class AppointmentActivity extends AppCompatActivity {
         binding.appointmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(!isCancel){
-                    Intent intent = new Intent(AppointmentActivity.this, ViewAppointmentDetails.class);
-                    intent.putExtra("custId", appointments.get(position).getCustId());
-                    intent.putExtra("refNo", appointments.get(position).getRefNo());
-                    intent.putExtra("name", appointments.get(position).getClientName());
-                    intent.putExtra("date", appointments.get(position).getApptDate());
-                    intent.putExtra("time", appointments.get(position).getTimeSlot());
-                    intent.putExtra("email", appointments.get(position).getEmail());
-                    intent.putExtra("mobile", appointments.get(position).getMobile());
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(AppointmentActivity.this, ViewAppointmentDetails.class);
+                intent.putExtra("custId", appointments.get(position).getCustId());
+                intent.putExtra("refNo", appointments.get(position).getRefNo());
+                intent.putExtra("name", appointments.get(position).getClientName());
+                intent.putExtra("date", appointments.get(position).getApptDate());
+                intent.putExtra("time", appointments.get(position).getTimeSlot());
+                intent.putExtra("email", appointments.get(position).getEmail());
+                intent.putExtra("mobile", appointments.get(position).getMobile());
+                intent.putExtra("remark", appointments.get(position).getRemark());
+                intent.putExtra("cancelled", appointments.get(position).getIsCancelled());
+
+                startActivity(intent);
+                finish();
             }
         });
 
     }
 
-    public void logout(){
+    public void logout() {
         SharedPreferences sp = getApplicationContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("loggedIn", false);
