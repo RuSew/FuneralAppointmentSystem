@@ -7,12 +7,31 @@
     android:background="@drawable/background_4"
     tools:context=".AppointmentActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#B0B0B0"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-66dp">
+
+        <TextView
+            android:id="@+id/custom_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Appointment"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <Button
         android:id="@+id/datePickerButton"
         style="?android:spinnerStyle"
         android:layout_width="139dp"
         android:layout_height="68dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="16dp"
         android:onClick="openDatePicker"
         android:text="JAN 01 2020"
@@ -23,20 +42,20 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/apptType"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0" />
 
     <ListView
         android:id="@+id/appointmentListView"
         android:layout_width="wrap_content"
-        android:layout_height="530dp"
+        android:layout_height="500dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apptType"
+        app:layout_constraintVertical_bias="0.95"
         tools:listitem="@layout/list_item" />
 
     <Spinner
@@ -44,8 +63,20 @@
         android:layout_width="218dp"
         android:layout_height="69dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/logout"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

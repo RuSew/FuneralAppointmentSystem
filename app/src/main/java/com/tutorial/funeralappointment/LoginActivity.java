@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (user != null) {
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putBoolean("loggedIn", true);
+                        editor.apply();
 
                         progressDialog.hide();
                         Intent intent = new Intent(LoginActivity.this, AppointmentActivity.class);

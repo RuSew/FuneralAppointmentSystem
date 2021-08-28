@@ -16,11 +16,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().hide();//hide action bar
         //Navigate to login activity
         new Handler().postDelayed(() -> {
             SharedPreferences sp = getApplicationContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-            boolean loggedIn = sp.getBoolean("loggedIn", true);
+            boolean loggedIn = sp.getBoolean("loggedIn", false);
             Intent intent;
             if (loggedIn) {
                 intent = new Intent(MainActivity.this, AppointmentActivity.class);

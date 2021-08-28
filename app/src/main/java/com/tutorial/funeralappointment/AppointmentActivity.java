@@ -2,8 +2,12 @@ package com.tutorial.funeralappointment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -35,17 +40,14 @@ public class AppointmentActivity extends AppCompatActivity {
     private boolean isCancel = false;
     private String selectedDate = "";
     private ListView listView;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAppointmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("Current Appointments");
-
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowHomeEnabled(true);
-//        actionBar.setIcon(R.drawable.logout);
+        title = findViewById(R.id.custom_title);
 
         //Date picker
         initDatePicker();
@@ -67,10 +69,10 @@ public class AppointmentActivity extends AppCompatActivity {
                 try {
                     if (position == 0) {
                         isCancel = false;
-                        setTitle("Current Appointments");
+                        title.setText("Current Appointments");
                     } else {
                         isCancel = true;
-                        setTitle("Cancelled Appointments");
+                        title.setText("Cancelled Appointments");
                     }
                     appointmentList = Queries.getAppointments(selectedDate, isCancel);
                     if(appointmentList.size() == 0){
@@ -86,6 +88,17 @@ public class AppointmentActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        Button logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+                Intent intent = new Intent(AppointmentActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -163,6 +176,13 @@ public class AppointmentActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void logout(){
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("loggedIn", false);
+        editor.apply();
     }
 
     // refresh thia page when back button clicked
