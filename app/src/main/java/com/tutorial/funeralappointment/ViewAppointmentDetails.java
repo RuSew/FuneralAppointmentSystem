@@ -1,14 +1,14 @@
 package com.tutorial.funeralappointment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class ViewAppointmentDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_appointment_details);
-        setTitle("Appointment Details");
+        int cancelled = 0;
         Intent intent = this.getIntent();
         if (intent != null) {
             TextView name = findViewById(R.id.name);
@@ -33,21 +33,59 @@ public class ViewAppointmentDetails extends AppCompatActivity {
             time.setText(intent.getStringExtra("time"));
             email.setText(intent.getStringExtra("email"));
             mobile.setText(intent.getStringExtra("mobile"));
+            mobile.setText(intent.getStringExtra("mobile"));
+            cancelled = intent.getIntExtra("cancelled", 0);
+
+            if (intent.getStringExtra("remark") != null) {
+                //make textview visible
+            } else {
+                //make textview hidden
+            }
         }
 
         Button cancel = findViewById(R.id.cancelBtn);
 
         String refNo = intent.getStringExtra("refNo");
 
+        if (cancelled == 1) {
+            cancel.setVisibility(View.INVISIBLE);
+        } else {
+            cancel.setVisibility(View.VISIBLE);
+        }
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Queries.cancelAppointment(refNo);
-                    sendMail(intent.getStringExtra("date"), intent.getStringExtra("time"), refNo, intent.getStringExtra("email"));
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+                AlertDialog.Builder customDialog = new AlertDialog.Builder(ViewAppointmentDetails.this);
+                customDialog.setTitle("Add remark to cancel appointment");
+
+                final EditText remarkText = new EditText(ViewAppointmentDetails.this);
+                customDialog.setView(remarkText);
+
+                customDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String remark = remarkText.getText().toString();
+
+                        try {
+                            int remarkAdded = Queries.addRemark(remark, refNo);
+                            if (remarkAdded > 0) {
+                                Queries.cancelAppointment(refNo);
+                                sendMail(intent.getStringExtra("date"), intent.getStringExtra("time"), refNo, intent.getStringExtra("email"));
+                            }
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                });
+
+                customDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                customDialog.show();
             }
         });
 
@@ -56,10 +94,18 @@ public class ViewAppointmentDetails extends AppCompatActivity {
     private void sendMail(String date, String time, String refNo, String email) {
         String subject = "Appointment Cancellation";
         String body = "Dear Sir/Madam,\n\n" +
-                "Please note that the appointment that was scheduled on the - "+ date + " " + time + " is cancelled. Please be kind enough to reschedule your appointment.\n" +
+                "Please note that the appointment that was scheduled on the - " + date + " " + time + " is cancelled. Please be kind enough to reschedule your appointment.\n" +
                 "Your reference number is - " + refNo + "\n\nThank you.";
         JavaMailAPI javaMailAPI = new JavaMailAPI(this, email, subject, body);
         javaMailAPI.execute();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(ViewAppointmentDetails.this, AppointmentActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

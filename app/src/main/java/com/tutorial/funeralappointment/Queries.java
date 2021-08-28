@@ -65,6 +65,7 @@ public class Queries {
                 query = "SELECT " +
                         " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
                         " A.AppRefNo AS REFNO, " +
+                        " A.Remark AS REMARK, " +
                         " DATE_FORMAT( A.TimeSlot, \"%h:%i %p\" ) AS TIMESLOT, " +
                         " A.isCancel AS CANCELLED, " +
                         " A.isDone AS DONE, " +
@@ -81,6 +82,7 @@ public class Queries {
                 query = "SELECT " +
                         " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
                         " A.AppRefNo AS REFNO, " +
+                        " A.Remark AS REMARK, " +
                         " DATE_FORMAT( A.TimeSlot, \"%h:%i %p\" ) AS TIMESLOT, " +
                         " A.isCancel AS CANCELLED, " +
                         " A.isDone AS DONE, " +
@@ -104,12 +106,17 @@ public class Queries {
                 appointment.setClientName(resultSet.getString("CLIENTNAME"));
                 appointment.setRefNo(resultSet.getString("REFNO"));
                 appointment.setTimeSlot(resultSet.getString("TIMESLOT"));
-                appointment.setCancelled(resultSet.getBoolean("CANCELLED"));
+                appointment.setIsCancelled(resultSet.getInt("CANCELLED"));
                 appointment.setDone(resultSet.getBoolean("DONE"));
                 appointment.setCustId(resultSet.getString("CUSTID"));
                 appointment.setApptDate(resultSet.getString("APPTDATE"));
                 appointment.setEmail(resultSet.getString("EMAIL"));
                 appointment.setMobile(resultSet.getString("MOBILE"));
+                if(isCancel){
+                    appointment.setRemark(resultSet.getString("REMARK"));
+                }else {
+                    appointment.setRemark(null);
+                }
 
                 appointmentList.add(appointment);
             }
@@ -170,6 +177,41 @@ public class Queries {
 
             }
         }
+    }
+
+    public static int addRemark(String remark, String refNo){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        int result = 0;
+        try {
+            String query = "UPDATE appointment " +
+                    "SET Remark = ? " +
+                    "WHERE" +
+                    " AppRefNo = ?";
+            connection = DatabaseConnection.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setString(1, remark);
+            statement.setString(2, refNo);
+            result = statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (Exception e) {
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                }
+
+            }
+        }
+        return result;
     }
 
 }
