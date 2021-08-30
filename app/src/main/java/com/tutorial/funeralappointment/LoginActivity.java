@@ -39,8 +39,9 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     Queries login = new Queries();
                     User user = login.getUser(username.getText().toString(), password.getText().toString());
-                    toastMessage("Logged in successfully");
-                    if (user != null) {
+                    if (user.getUserId() != null) {
+                        Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putBoolean("loggedIn", true);
                         editor.apply();
@@ -50,15 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }else{
-                        toastMessage("Invalid Credentials");
+                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                        progressDialog.hide();
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
         });
-    }
-    private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

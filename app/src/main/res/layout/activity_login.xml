@@ -24,16 +24,16 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="111dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="286dp"
+        android:layout_width="105dp"
+        android:layout_height="41dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginTop="284dp"
         android:gravity="right"
         android:text="@string/username"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/username"
-        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintHorizontal_bias="0.386"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
