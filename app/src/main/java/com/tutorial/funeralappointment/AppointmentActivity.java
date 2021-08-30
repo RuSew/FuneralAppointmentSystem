@@ -2,6 +2,7 @@ package com.tutorial.funeralappointment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,11 +36,11 @@ public class AppointmentActivity extends AppCompatActivity {
     private Button dateButton;
     private boolean isCancel = false;
     private String selectedDate = "";
-    private ListView listView;
     private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityAppointmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -61,6 +62,7 @@ public class AppointmentActivity extends AppCompatActivity {
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 ArrayList<Appointment> appointmentList = null;
                 try {
                     if (position == 0) {
@@ -75,7 +77,6 @@ public class AppointmentActivity extends AppCompatActivity {
                         Toast.makeText(AppointmentActivity.this, "No data available", Toast.LENGTH_SHORT).show();
                     }
                     setAdapter(appointmentList);
-
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

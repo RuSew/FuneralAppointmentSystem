@@ -12,11 +12,11 @@ public class DatabaseConnection {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        String host = "192.168.0.157";//when running on localhost, put your local IP address as host.
-        String username = "rusiru";
-        String password = "rusiru";
+        String host = "sql6.freemysqlhosting.net";//when running on localhost, put your local IP address as host.
+        String username = "sql6433682";
+        String password = "q3ytcIZurc";
         String port = "3306";//mysql port
-        String dbName = "funeralappointment";
+        String dbName = "sql6433682";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");

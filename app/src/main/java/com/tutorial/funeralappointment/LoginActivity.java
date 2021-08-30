@@ -27,15 +27,12 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         EditText username = findViewById(R.id.username);
         EditText password = findViewById(R.id.password);
-        ProgressDialog progressDialog = new ProgressDialog(this);
 
         sp = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.setMessage("Loading...");
-                progressDialog.show();
                 try {
                     Queries login = new Queries();
                     User user = login.getUser(username.getText().toString(), password.getText().toString());
@@ -46,13 +43,11 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putBoolean("loggedIn", true);
                         editor.apply();
 
-                        progressDialog.hide();
                         Intent intent = new Intent(LoginActivity.this, AppointmentActivity.class);
                         startActivity(intent);
                         finish();
                     }else{
                         Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                        progressDialog.hide();
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
