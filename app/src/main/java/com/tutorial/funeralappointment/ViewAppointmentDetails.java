@@ -1,9 +1,7 @@
 package com.tutorial.funeralappointment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -52,6 +50,7 @@ public class ViewAppointmentDetails extends AppCompatActivity {
         }
 
         Button cancel = findViewById(R.id.cancelBtn);
+        cancel.setBackgroundColor(getResources().getColor(R.color.btn_color));
 
         String refNo = intent.getStringExtra("refNo");
 
@@ -64,6 +63,7 @@ public class ViewAppointmentDetails extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cancel.setBackgroundColor(getResources().getColor(R.color.disabled));
                 AlertDialog.Builder customDialog = new AlertDialog.Builder(ViewAppointmentDetails.this);
                 customDialog.setTitle("Add remark to cancel appointment");
 
@@ -95,6 +95,7 @@ public class ViewAppointmentDetails extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        cancel.setBackgroundColor(getResources().getColor(R.color.btn_color));
                     }
                 });
                 customDialog.show();
@@ -113,8 +114,7 @@ public class ViewAppointmentDetails extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         Intent intent = new Intent(ViewAppointmentDetails.this, AppointmentActivity.class);
         startActivity(intent);
         finish();

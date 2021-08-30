@@ -1,6 +1,5 @@
 package com.tutorial.funeralappointment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,16 +26,20 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         EditText username = findViewById(R.id.username);
         EditText password = findViewById(R.id.password);
+        loginBtn.setBackgroundColor(getResources().getColor(R.color.btn_color));
+
 
         sp = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loginBtn.setBackgroundColor(getResources().getColor(R.color.disabled));
                 try {
                     Queries login = new Queries();
-                    User user = login.getUser(username.getText().toString(), password.getText().toString());
+                    User user = Queries.getUser(username.getText().toString(), password.getText().toString());
                     if (user.getUserId() != null) {
+                        loginBtn.setBackgroundColor(getResources().getColor(R.color.material_on_primary_disabled));
                         Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
 
                         SharedPreferences.Editor editor = sp.edit();
@@ -46,8 +49,9 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, AppointmentActivity.class);
                         startActivity(intent);
                         finish();
-                    }else{
+                    } else {
                         Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                        loginBtn.setBackgroundColor(getResources().getColor(R.color.btn_color));
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
