@@ -53,6 +53,7 @@ public class AppointmentActivity extends AppCompatActivity {
         Spinner dropdown = findViewById(R.id.apptType);
         dropdown.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);//change dropdown arrow colour
 
+        //Adding options to dropdown
         List<String> options = Arrays.asList("Current Appointments", "Cancelled Appointments");
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, options);
         dropdown.setAdapter(adapter);
@@ -181,6 +182,4 @@ public class AppointmentActivity extends AppCompatActivity {
         editor.putBoolean("loggedIn", false);
         editor.apply();
     }
-
-    // refresh thia page when back button clicked
 }

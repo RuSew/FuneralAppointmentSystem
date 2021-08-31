@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.password);
         loginBtn.setBackgroundColor(getResources().getColor(R.color.btn_color));
 
-
         sp = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {

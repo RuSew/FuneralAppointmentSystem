@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Queries {
 
@@ -61,7 +60,7 @@ public class Queries {
         ArrayList<Appointment> appointmentList = new ArrayList<>();
         String query = "";
         try {
-            if(!isCancel){
+            if (!isCancel) {
                 query = "SELECT " +
                         " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
                         " A.AppRefNo AS REFNO, " +
@@ -77,8 +76,8 @@ public class Queries {
                         " appointment A " +
                         " INNER JOIN customer C ON A.CusId = C.CusId  " +
                         "WHERE " +
-                        " DATE_FORMAT( A.Date, \"%Y-%c-%d\" ) = ? AND isCancel = 0;";
-            }else{
+                        " DATE_FORMAT( A.Date, \"%Y-%c-%e\" ) = ? AND isCancel = 0;";
+            } else {
                 query = "SELECT " +
                         " CONCAT( C.FirstName, \" \", C.LastName ) AS CLIENTNAME, " +
                         " A.AppRefNo AS REFNO, " +
@@ -94,7 +93,7 @@ public class Queries {
                         " appointment A " +
                         " INNER JOIN customer C ON A.CusId = C.CusId  " +
                         "WHERE " +
-                        " DATE_FORMAT( A.Date, \"%Y-%c-%d\" ) = ? AND isCancel = 1;";
+                        " DATE_FORMAT( A.Date, \"%Y-%c-%e\" ) = ? AND isCancel = 1;";
             }
 
             connection = DatabaseConnection.getConnection();
@@ -112,9 +111,9 @@ public class Queries {
                 appointment.setApptDate(resultSet.getString("APPTDATE"));
                 appointment.setEmail(resultSet.getString("EMAIL"));
                 appointment.setMobile(resultSet.getString("MOBILE"));
-                if(isCancel){
+                if (isCancel) {
                     appointment.setRemark(resultSet.getString("REMARK"));
-                }else {
+                } else {
                     appointment.setRemark(null);
                 }
 
@@ -179,7 +178,7 @@ public class Queries {
         }
     }
 
-    public static int addRemark(String remark, String refNo){
+    public static int addRemark(String remark, String refNo) {
         Connection connection = null;
         PreparedStatement statement = null;
         int result = 0;

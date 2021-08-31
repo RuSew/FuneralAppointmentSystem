@@ -74,8 +74,8 @@ public class ViewAppointmentDetails extends AppCompatActivity {
                 final EditText remarkText = new EditText(ViewAppointmentDetails.this);
                 customDialog.setView(remarkText);
                 final float scale = getResources().getDisplayMetrics().density;
-                int padding_5dp = (int) (10 * scale + 0.5f);
-                remarkText.setPadding(padding_5dp,padding_5dp,padding_5dp,padding_5dp);
+                int padding_10dp = (int) (10 * scale + 0.5f);
+                remarkText.setPadding(padding_10dp,padding_10dp,padding_10dp,padding_10dp);
 
                 customDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -114,7 +114,8 @@ public class ViewAppointmentDetails extends AppCompatActivity {
     private void sendMail(String date, String time, String refNo, String email) {
         String subject = "Appointment Cancellation";
         String body = "Dear Sir/Madam,\n\n" +
-                "Please note that the appointment that was scheduled on the - " + date + " " + time + " is cancelled. Please be kind enough to reschedule your appointment.\n" +
+                "Please note that the appointment that was scheduled on the - " + date + " " + time + " is cancelled. " +
+                "Please be kind enough to reschedule your appointment.\n" +
                 "Your reference number is - " + refNo + "\n\nThank you.";
         JavaMailAPI javaMailAPI = new JavaMailAPI(this, email, subject, body);
         javaMailAPI.execute();
