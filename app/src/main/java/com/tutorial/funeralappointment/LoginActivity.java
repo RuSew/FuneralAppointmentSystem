@@ -36,10 +36,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loginBtn.setBackgroundColor(getResources().getColor(R.color.disabled));
                 try {
-                    Queries login = new Queries();
                     User user = Queries.getUser(username.getText().toString(), password.getText().toString());
                     if (user.getUserId() != null) {
-                        loginBtn.setBackgroundColor(getResources().getColor(R.color.material_on_primary_disabled));
+                        loginBtn.setBackgroundColor(getResources().getColor(R.color.btn_color));
                         Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
 
                         SharedPreferences.Editor editor = sp.edit();

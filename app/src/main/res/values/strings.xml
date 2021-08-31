@@ -2,10 +2,9 @@
     <string name="app_name">Pre-Funeral Planning</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="enter_password"><font size="12dp">Enter password</font></string>
-    <string name="enter_username"><font size="12dp">Enter username</font></string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_username">Enter username</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="welcome">Welcome</string>
-
 </resources>

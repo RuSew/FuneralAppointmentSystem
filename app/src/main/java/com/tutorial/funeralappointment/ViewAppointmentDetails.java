@@ -4,7 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ public class ViewAppointmentDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_appointment_details);
+
         int cancelled = 0;
         Intent intent = this.getIntent();
         if (intent != null) {
@@ -65,10 +68,13 @@ public class ViewAppointmentDetails extends AppCompatActivity {
             public void onClick(View v) {
                 cancel.setBackgroundColor(getResources().getColor(R.color.disabled));
                 AlertDialog.Builder customDialog = new AlertDialog.Builder(ViewAppointmentDetails.this);
-                customDialog.setTitle("Add remark to cancel appointment");
+                customDialog.setTitle("Cancellation remark");
 
                 final EditText remarkText = new EditText(ViewAppointmentDetails.this);
                 customDialog.setView(remarkText);
+                final float scale = getResources().getDisplayMetrics().density;
+                int padding_5dp = (int) (10 * scale + 0.5f);
+                remarkText.setPadding(padding_5dp,padding_5dp,padding_5dp,padding_5dp);
 
                 customDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
