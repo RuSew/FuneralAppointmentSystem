@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,7 +30,8 @@ public class ViewAppointmentDetails extends AppCompatActivity {
             TextView email = findViewById(R.id.email);
             TextView mobile = findViewById(R.id.mobile);
             TextView remark = findViewById(R.id.remark);
-            TextView textRemark = findViewById(R.id.textRemark);
+            TextView textRemark = findViewById(R.id.remarkText);
+            TextView remarkColon = findViewById(R.id.remarkColon);
 
             name.setText(intent.getStringExtra("name"));
             date.setText(intent.getStringExtra("date"));
@@ -44,11 +43,13 @@ public class ViewAppointmentDetails extends AppCompatActivity {
 
             if (intent.getStringExtra("remark") != null) {
                 textRemark.setVisibility(View.VISIBLE);
+                remarkColon.setVisibility(View.VISIBLE);
                 remark.setVisibility(View.VISIBLE);
                 remark.setText(intent.getStringExtra("remark"));
             } else {
                 textRemark.setVisibility(View.INVISIBLE);
                 remark.setVisibility(View.INVISIBLE);
+                remarkColon.setVisibility(View.INVISIBLE);
             }
         }
 
